@@ -8,7 +8,7 @@ const Footer = () => {
       <div className='container mx-auto flex items-center justify-between p-12'>
         <div>
           <h1  style={{ letterSpacing: '1px' }} className='-mb-2 font-medium text-4xl font-primary uppercase'>Vikas Saini blog</h1>
-          <p className='uppercase text-xs'>Design | Tech | Business</p>
+          <p className='uppercase text-xs'>Design | Tech | Marketing</p>
         </div>
         <div className='grid grid-cols-2 gap-2 gap-x-8'>
           <Link href={'#'}>page</Link>
