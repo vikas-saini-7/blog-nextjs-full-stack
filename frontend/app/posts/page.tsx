@@ -33,6 +33,7 @@ const page = () => {
           </div>
           {/* posts  start*/}
           <div>
+            posts page designing soon..
             {/* {categoryBlogs?.map((item) => (
               <div key={item.id} className="mt-4 border-t py-8 flex flex-col">
                 <div className="flex mb-4">

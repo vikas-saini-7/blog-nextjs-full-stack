@@ -3,42 +3,41 @@ import Filters from "../components/home/Filters";
 import { Button } from "@/components/ui/button";
 import Posts from "@/components/home/Posts";
 
-const PEOPLE_LIST = [
-  {
-    id: 1,
-    name: "Chintan Bhatt",
-    image:
-      "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png",
-    role: "The founder & chief designer at YourUXTeam",
-    link: "",
-  },
-  {
-    id: 2,
-    name: "Chintan Bhatt",
-    image:
-      "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png",
-    role: "The founder & chief designer at YourUXTeam",
-    link: "",
-  },
-  {
-    id: 3,
-    name: "Chintan Bhatt",
-    image:
-      "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png",
-    role: "The founder & chief designer at YourUXTeam",
-    link: "",
-  },
-];
+// const PEOPLE_LIST = [
+//   {
+//     id: 1,
+//     name: "Chintan Bhatt",
+//     image:
+//       "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png",
+//     role: "The founder & chief designer at YourUXTeam",
+//     link: "",
+//   },
+//   {
+//     id: 2,
+//     name: "Chintan Bhatt",
+//     image:
+//       "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png",
+//     role: "The founder & chief designer at YourUXTeam",
+//     link: "",
+//   },
+//   {
+//     id: 3,
+//     name: "Chintan Bhatt",
+//     image:
+//       "https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/e76d4296-43f3-493b-9d50-f8e5c142d06c/2117667014/boys-profile-picture-screenshot.png",
+//     role: "The founder & chief designer at YourUXTeam",
+//     link: "",
+//   },
+// ];
 
 export default function Home() {
-  
   return (
     <main className="">
       <div className="container mx-auto flex">
         <div className="w-2/3 mr-8 py-8">
           <Filters />
           <div className="flex justify-between">
-            <h1 className="font-bold">Articles</h1>
+            <h1 className="font-bold">Recent Posts</h1>
             <Button size={"sm"} className="rounded-full" variant="outline">
               Following
             </Button>
@@ -64,7 +63,7 @@ export default function Home() {
             </div>
             <div></div>
           </div>
-          <div>
+          {/* <div>
             <h1 className="mb-4">People you might be interested</h1>
             <ul className="">
               {PEOPLE_LIST.map((item) => (
@@ -86,7 +85,7 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </main>

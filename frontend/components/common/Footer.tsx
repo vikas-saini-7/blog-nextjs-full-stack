@@ -22,8 +22,8 @@ const Footer = () => {
           <IconBrandGithub size={32}/>
         </div>
       </div>
-      <div className='border-t border-gray-500 flex items-center justify-between p-4'>
-        <p className='text-xs uppercase flex items-center gap-1 container mx-auto'><IconCopyright size={16}/> vikas saini blog 2024</p>
+      <div className='container mx-auto border-t border-gray-500 flex items-center justify-between p-4'>
+        <p className='text-xs uppercase flex items-center gap-1'><IconCopyright size={16}/> vikas saini blog 2024</p>
       </div>
     </div>
   )
