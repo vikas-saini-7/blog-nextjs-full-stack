@@ -45,6 +45,11 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "inversedBy": "blogs"
+    },
+    "content": {
+      "type": "richtext",
+      "default": "Content goes here...",
+      "required": true
     }
   }
 }

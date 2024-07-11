@@ -96,3 +96,36 @@
 .font-primary{
   font-family: highman;
 }
+
+
+
+
+
+
+/* CONTENT PAGE CSS  */
+
+.blog-content {
+  line-height: 1.5rem;
+  h1, h2, h3, h4, h5, h6{
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+  h1{}
+  h2{
+    font-size: 1.25rem;
+  }
+  h3{
+    font-size: 1.25rem;
+  }
+  h4{}
+  p{
+    color: rgb(0, 0, 0);
+    margin-bottom: 8px;
+  }
+  b, strong{
+    color: black;
+  }
+  section{
+    margin-bottom: 3rem;
+  }
+}

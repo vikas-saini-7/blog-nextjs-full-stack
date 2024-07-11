@@ -811,6 +811,9 @@ export interface ApiBlogBlog extends Schema.CollectionType {
       'manyToMany',
       'api::category.category'
     >;
+    content: Attribute.RichText &
+      Attribute.Required &
+      Attribute.DefaultTo<'Content goes here...'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
