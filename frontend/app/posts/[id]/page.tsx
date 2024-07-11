@@ -1,4 +1,5 @@
 "use client";
+
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 const getPrettyDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -25,23 +27,37 @@ const getPrettyDate = (dateString: string): string => {
 
 const BACKEND_URL = "http://localhost:1337";
 
-interface Post {
-  id: number;
-  attributes: {
-    author: string;
-    createdAt: string;
-    title: string;
-    description: string;
-    tags: string[];
-    readTime: string;
-    image: any;
-    categories: any;
+interface PostAttributes {
+  author: string;
+  createdAt: string;
+  title: string;
+  description: string;
+  tags: string[];
+  readTime: string;
+  image: {
+    data: {
+      attributes: {
+        url: string;
+      };
+    };
+  };
+  categories: {
+    data: {
+      attributes: {
+        name: string;
+      };
+    }[];
   };
 }
 
-const page = () => {
-  const [post, setPost] = useState<Post[]>([]);
-  const { id } = useParams();
+interface Post {
+  id: number;
+  attributes: PostAttributes;
+}
+
+const Page: React.FC = () => {
+  const [post, setPost] = useState<Post | null>(null);
+  const { id } = useParams<{ id: string }>();
 
   const fetchBlogs = async () => {
     const url = `http://localhost:1337/api/blogs/${id}?populate=*`;
@@ -52,7 +68,7 @@ const page = () => {
       }
       const result = await response.json();
       setPost(result.data);
-      console.log(result.data);
+      // console.log(result.data);
       return result.data;
     } catch (error) {
       console.error("Fetching error:", error);
@@ -61,7 +77,8 @@ const page = () => {
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [id]);
+
   return (
     <main className="">
       <div className="container mx-auto flex">
@@ -95,7 +112,7 @@ const page = () => {
                 <div className="flex items-center gap-3">
                   <h1>{post?.attributes?.author}</h1>
                   <p className="text-xs text-gray-500">
-                    {getPrettyDate(post?.attributes?.createdAt)}
+                    {post && getPrettyDate(post.attributes.createdAt)}
                   </p>
                 </div>
                 <p className="text-sm text-gray-500">Software Developer</p>
@@ -103,23 +120,27 @@ const page = () => {
             </div>
             <div className="flex items-center gap-4">
               {post?.attributes?.categories?.data.map(
-                (category: any, index: number) => (
-                  <span
-                    key={index}
-                    className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                  >
-                    {category?.attributes?.name}
-                  </span>
+                (category: any, index) => (
+                  <Link href={`/posts/category/${category.id}`}>
+                    <span
+                      key={index}
+                      className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                    >
+                      {category.attributes.name}
+                    </span>
+                  </Link>
                 )
               )}
             </div>
           </div>
           <h1 className="text-2xl font-bold mb-2">{post?.attributes?.title}</h1>
-          <img
-            className="w-full rounded-lg"
-            src={`${BACKEND_URL}${post?.attributes?.image?.data?.attributes?.url}`}
-            alt=""
-          />
+          {post?.attributes?.image?.data?.attributes?.url && (
+            <img
+              className="w-full rounded-lg"
+              src={`${BACKEND_URL}${post.attributes.image.data.attributes.url}`}
+              alt=""
+            />
+          )}
           <div className="mt-4">
             [Content Goes here...] Lorem, ipsum dolor sit amet consectetur
             adipisicing elit. Vel voluptate nobis, quis quasi veritatis quo
@@ -198,4 +219,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

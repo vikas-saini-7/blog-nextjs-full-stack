@@ -34,21 +34,18 @@ const BACKEND_URL = "http://localhost:1337";
 
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState<Boolean>(false);
 
   const fetchBlogs = async () => {
     const url = "http://localhost:1337/api/blogs?populate=*";
     try {
-      setLoading(true);
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`An error has occurred: ${response.status}`);
       }
       const result = await response.json();
       setPosts(result.data);
-      console.log(result.data);
-      setLoading(false);
-      return result.data;
+      // console.log(result.data);
+      return;
     } catch (error) {
       console.error("Fetching error:", error);
     }
@@ -99,12 +96,14 @@ const Posts: React.FC = () => {
             <div className="flex items-center gap-4 mt-4">
               {item.attributes?.categories?.data.map(
                 (category: any, index: number) => (
-                  <span
-                    key={index}
-                    className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                  >
-                    {category?.attributes?.name}
-                  </span>
+                  <Link href={`/posts/category/${category.id}`}>
+                    <span
+                      key={index}
+                      className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                    >
+                      {category?.attributes?.name}
+                    </span>
+                  </Link>
                 )
               )}
             </div>

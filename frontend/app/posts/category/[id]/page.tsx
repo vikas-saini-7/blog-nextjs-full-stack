@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,7 +12,82 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const page = () => {
+interface CategoryAttributes {
+  name: string;
+  blogs: {
+    data: Blog[];
+  };
+}
+
+interface Category {
+  id: number;
+  attributes: CategoryAttributes;
+}
+
+interface BlogAttributes {
+  title: string;
+  description: string;
+  createdAt: string;
+  author: string;
+  image: {
+    data: {
+      attributes: {
+        url: string;
+      };
+    };
+  };
+  categories: {
+    data: {
+      attributes: {
+        name: string;
+      };
+    }[];
+  };
+}
+
+interface Blog {
+  id: number;
+  attributes: BlogAttributes;
+}
+
+const getPrettyDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return date.toLocaleDateString(undefined, options);
+};
+
+const BACKEND_URL = "http://localhost:1337";
+
+const Page: React.FC = () => {
+  const { id } = useParams();
+  const [category, setCategory] = useState<Category | null>(null);
+  const [categoryBlogs, setCategoryBlogs] = useState<Blog[]>([]);
+
+  const fetchCategoryData = async () => {
+    const url = `${BACKEND_URL}/api/categories/${id}?populate=*`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`An error has occurred: ${response.status}`);
+      }
+      const result = await response.json();
+      setCategory(result.data);
+      setCategoryBlogs(result.data.attributes.blogs.data);
+      console.log(result.data.attributes.blogs.data);
+      console.log(result.data);
+    } catch (error) {
+      console.error("Fetching error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategoryData();
+  }, [id]);
+
   return (
     <main className="">
       <div className="container mx-auto flex">
@@ -23,7 +100,11 @@ const page = () => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Posts</BreadcrumbPage>
+                  <BreadcrumbLink href="/posts">Posts</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{category?.attributes?.name}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -33,7 +114,7 @@ const page = () => {
           </div>
           {/* posts  start*/}
           <div>
-            {/* {categoryBlogs?.map((item) => (
+            {categoryBlogs?.map((item) => (
               <div key={item.id} className="mt-4 border-t py-8 flex flex-col">
                 <div className="flex mb-4">
                   <img
@@ -79,7 +160,7 @@ const page = () => {
                   ))}
                 </div>
               </div>
-            ))} */}
+            ))}
           </div>
           {/* POSTS end */}
         </div>
@@ -93,4 +174,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
