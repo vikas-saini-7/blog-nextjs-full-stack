@@ -2,6 +2,7 @@ import Image from "next/image";
 import Filters from "../components/home/Filters";
 import { Button } from "@/components/ui/button";
 import Posts from "@/components/home/Posts";
+import Link from "next/link";
 
 // const PEOPLE_LIST = [
 //   {
@@ -36,11 +37,13 @@ export default function Home() {
       <div className="container mx-auto flex">
         <div className="w-2/3 mr-8 py-8">
           <Filters />
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <h1 className="font-bold">Recent Posts</h1>
-            <Button size={"sm"} className="rounded-full" variant="outline">
-              Following
-            </Button>
+            <Link href="/posts">
+              <Button size={"sm"} className="rounded-full text-xs" variant="outline">
+                View All Posts
+              </Button>
+            </Link>
           </div>
           <Posts />
           <Posts />

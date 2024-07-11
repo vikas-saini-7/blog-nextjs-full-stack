@@ -11,6 +11,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  IconFileDislike,
+  IconHeart,
+  IconShare,
+  IconShare2,
+  IconShare3,
+} from "@tabler/icons-react";
 
 const getPrettyDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -83,6 +91,7 @@ const Page: React.FC = () => {
   return (
     <main className="">
       <div className="container mx-auto flex">
+        {/* COLUMN 1 */}
         <div className="w-2/3 mr-8 py-8">
           <div className="mb-8">
             <Breadcrumb>
@@ -142,13 +151,25 @@ const Page: React.FC = () => {
               alt=""
             />
           )}
+          {/* CONTENT  */}
           <div className="mt-4">
             <div
               className="blog-content"
               dangerouslySetInnerHTML={{ __html: post?.attributes?.content }}
             />
           </div>
+          {/* SHARE  */}
+          <div className="mt-8 flex items-center gap-4">
+            <Button variant={"outline"} className="flex items-center gap-1">
+              <IconHeart size={18} />
+            </Button>
+            <Button variant={"outline"} className="flex items-center gap-1">
+              <IconShare3 size={18} />
+            </Button>
+          </div>
         </div>
+
+        {/* COLUMN 2  */}
         <div className="w-1/3 border-l pl-8 py-8 sticky top-0 h-[100vh]">
           <div>
             <h1 className="mb-4">You may also like...</h1>
