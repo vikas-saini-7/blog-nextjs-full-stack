@@ -1,109 +1,101 @@
-import React from 'react'
+"use client";
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
-const POSTS_DATA = [
-    {
-      "id": 1,
-      "author": "Chintan Bhatt",
-      "date": "Apr 16, 2022",
-      "title": "8 Psychology-Based Design Hacks That Will Make You A Better UX Designer",
-      "description": "If the first thought that crossed your mind when you read the title of the article was 'What does Psychology has to do with UX Design?' then, yes, that's what we thought too, now that we're on the same page, let's end this article here. Cheers!",
-      "tags": ["UX design"],
-      "readTime": "4 min read",
-      "imageUrl": "path/to/image1.png"
-    },
-    {
-      "id": 2,
-      "author": "Alex Morgan",
-      "date": "May 10, 2023",
-      "title": "10 Tips for Creating Responsive Web Designs",
-      "description": "Responsive web design is essential in today's digital landscape. Learn 10 tips to make your web designs adaptable to any screen size.",
-      "tags": ["Web design", "Responsive design"],
-      "readTime": "5 min read",
-      "imageUrl": "path/to/image2.png"
-    },
-    {
-      "id": 3,
-      "author": "Jordan Lee",
-      "date": "Jun 05, 2023",
-      "title": "The Future of Mobile App Development",
-      "description": "Explore the latest trends in mobile app development and what to expect in the coming years. Stay ahead of the curve with these insights.",
-      "tags": ["Mobile development", "Technology"],
-      "readTime": "6 min read",
-      "imageUrl": "path/to/image3.png"
-    },
-    {
-      "id": 4,
-      "author": "Taylor Swift",
-      "date": "Jul 22, 2023",
-      "title": "Effective Strategies for Improving User Retention",
-      "description": "Discover strategies to keep your users engaged and coming back to your app or website. User retention is key to success.",
-      "tags": ["User retention", "UX"],
-      "readTime": "7 min read",
-      "imageUrl": "path/to/image4.png"
-    },
-    {
-      "id": 5,
-      "author": "Jamie Fox",
-      "date": "Aug 14, 2023",
-      "title": "Designing for Accessibility: Best Practices",
-      "description": "Learn the best practices for designing accessible websites and applications. Ensure your designs are inclusive and usable by all.",
-      "tags": ["Accessibility", "Web design"],
-      "readTime": "8 min read",
-      "imageUrl": "path/to/image5.png"
-    }
-]
-
-const TAGS = [
-    {
-      id: 1,
-      name: 'Design'
-    },
-    {
-      id: 2,
-      name: 'Development'
-    },
-    {
-      id: 3,
-      name: 'UX'
-    },
-    {
-      id: 4,
-      name: 'Marketing'
-    },
-  ]
-  
-
-const Posts = () => {
-  return (
-    <div>
-        {POSTS_DATA.map((item) => (
-            <div className='mt-4 border-t py-8 flex flex-col'>
-                <div className='flex mb-4'>
-                    <img className='h-12 rounded-full' src='https://imgcdn.stablediffusionweb.com/2024/5/2/81328692-c85f-4e08-9c01-f8f9f49fb291.jpg' alt="" />
-                    <div className='pl-4'>
-                        <div>
-                            <h1>{item.author}</h1>
-                            <p className='text-xs text-gray-500'>{item.date}</p>
-                        </div>
-                        {/* <p>{item.title}</p> */}
-                    </div>
-                </div>
-                <div className='flex justify-between gap-4 lg:gap-8'>
-                    <div className='flex-2/3'>
-                        <h1 className='text-xl font-bold mb-2'>{item.title}</h1>
-                        <p className='text-sm text-gray-500'>{item.description}</p>
-                    </div>
-                    <img className='w-1/3 rounded-lg grayscale' src="https://framerusercontent.com/images/RBpHBZtwSkU6uF9GENaXtaZ4ozU.png" alt="" />
-                </div>
-                <div className='flex items-center gap-4 mt-4'>
-                    {item.tags?.map((item) => (
-                        <span className='text-xs h-10 bg-gray-100 rounded-full flex items-center px-6'>{item}</span>
-                    ))}
-                </div>
-            </div>
-        ))}
-    </div>
-  )
+interface Post {
+  id: number;
+  attributes: {
+    author: string;
+    createdAt: string;
+    title: string;
+    description: string;
+    tags: string[];
+    readTime: string;
+    image: any;
+    categories: any;
+  };
 }
 
-export default Posts
+const getPrettyDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    // hour: '2-digit',
+    // minute: '2-digit',
+    // second: '2-digit',
+  };
+  return date.toLocaleDateString(undefined, options);
+};
+
+const BACKEND_URL = 'http://localhost:1337'
+
+const Posts: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  const fetchBlogs = async () => {
+    const url = 'http://localhost:1337/api/blogs?populate=*';
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`An error has occurred: ${response.status}`);
+      }
+      const result = await response.json();
+      setPosts(result.data);
+      console.log(result.data);
+      return result.data;
+    } catch (error) {
+      console.error('Fetching error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  return (
+    <div>
+      {posts?.map((item) => (
+        <div key={item.id} className="mt-4 border-t py-8 flex flex-col">
+          <div className="flex mb-4">
+            <img
+              className="h-12 rounded-full"
+              src="https://imgcdn.stablediffusionweb.com/2024/5/2/81328692-c85f-4e08-9c01-f8f9f49fb291.jpg"
+              alt=""
+            />
+            <div className="pl-4">
+              <div className='flex items-center gap-3'>
+                <h1>{item.attributes.author}</h1>
+                <p className="text-xs text-gray-500">{getPrettyDate(item.attributes.createdAt)}</p>
+              </div>
+              <p className='text-sm text-gray-500'>Software Developer</p>
+            </div>
+          </div>
+          <div className="flex justify-between gap-4 lg:gap-8">
+            <div className="w-2/3">
+              <Link href={`/posts/${item.id}`}>
+                <h1 className="text-xl font-bold mb-2 hover:text-gray-700">{item.attributes.title}</h1>
+              </Link>
+              <p className="text-sm text-gray-500">{item.attributes.description}</p>
+            </div>
+            <img
+              className="w-1/3 rounded-lg grayscale"
+              src={`${BACKEND_URL}${item?.attributes?.image?.data?.attributes?.url}`}
+              alt=""
+            />
+          </div>
+          <div className="flex items-center gap-4 mt-4">
+            {item.attributes?.categories?.data.map((category: any, index: number) => (
+              <span key={index} className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6">
+                {category?.attributes?.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Posts;

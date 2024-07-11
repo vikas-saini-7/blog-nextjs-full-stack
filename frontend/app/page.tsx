@@ -38,6 +38,10 @@ export default function Home() {
             <Button size={'sm'} className="rounded-full" variant='outline'>Following</Button>
           </div>
           <Posts/>
+          <Posts/>
+          <Posts/>
+          <Posts/>
+          <Posts/>
         </div>
         <div className="w-1/3 border-l pl-8 py-8 sticky top-0 h-[100vh]">
           <div className="p-6 bg-gray-100 rounded-lg mb-8">
