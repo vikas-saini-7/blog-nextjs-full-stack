@@ -157,16 +157,18 @@ const page = () => {
                   />
                 </div>
                 <div className="flex items-center gap-4 mt-4">
-                  {item?.attributes?.categories?.data.map((category, index) => (
-                    <Link href={`/posts/category/${category.id}`}>
-                      <span
-                        key={index}
-                        className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                      >
-                        {category?.attributes?.name}
-                      </span>
-                    </Link>
-                  ))}
+                  {item?.attributes?.categories?.data.map(
+                    (category: any, index: number) => (
+                      <Link href={`/posts/category/${category.id}`}>
+                        <span
+                          key={index}
+                          className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                        >
+                          {category?.attributes?.name}
+                        </span>
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
             ))}
