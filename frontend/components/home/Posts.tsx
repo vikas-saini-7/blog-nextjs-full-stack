@@ -79,7 +79,7 @@ const Posts: React.FC = () => {
             <div className="flex justify-between gap-4 lg:gap-8">
               <div className="w-2/3">
                 <Link href={`/posts/${item.id}`}>
-                  <h1 className="text-xl font-bold mb-2 hover:text-gray-700">
+                  <h1 className="text-xl font-bold mb-2 hover:text-purple-700">
                     {item.attributes.title}
                   </h1>
                 </Link>
