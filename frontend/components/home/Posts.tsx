@@ -76,8 +76,8 @@ const Posts: React.FC = () => {
                 <p className="text-sm text-gray-500">Software Developer</p>
               </div>
             </div>
-            <div className="flex justify-between gap-4 lg:gap-8">
-              <div className="w-2/3">
+            <div className="flex flex-col md:flex-row justify-between gap-4 lg:gap-8">
+              <div className="w-full md:w-2/3">
                 <Link href={`/posts/${item.id}`}>
                   <h1 className="text-xl font-bold mb-2 hover:text-purple-700">
                     {item.attributes.title}
@@ -88,7 +88,7 @@ const Posts: React.FC = () => {
                 </p>
               </div>
               <img
-                className="w-1/3 rounded-lg grayscale"
+                className="w-full md:w-1/3 rounded-lg grayscale"
                 src={`${BACKEND_URL}${item?.attributes?.image?.data?.attributes?.url}`}
                 alt=""
               />

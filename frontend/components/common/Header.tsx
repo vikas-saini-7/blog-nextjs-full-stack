@@ -2,7 +2,6 @@ import {
   IconBell,
   IconBrandLinkedin,
   IconMenu2,
-  IconSend,
 } from "@tabler/icons-react";
 import React from "react";
 import { Button } from "../ui/button";
@@ -22,14 +21,14 @@ const Header = () => {
         </h1>
         <div className="flex items-center gap-4 lg:gap-8">
           <IconBell />
-          <div className="p-1 border rounded-full">
+          <div className="p-1 border rounded-full md:block hidden">
             <img
               className="w-10 h-10 rounded-full"
               src="https://pics.craiyon.com/2023-11-26/oMNPpACzTtO5OVERUZwh3Q.webp"
               alt=""
             />
           </div>
-          <Button className="rounded-xl">
+          <Button className="rounded-xl hidden md:flex">
             <span className="mr-2">Follow Me</span>
             <IconBrandLinkedin size={18} />
           </Button>
