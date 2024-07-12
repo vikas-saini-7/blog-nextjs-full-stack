@@ -81,15 +81,15 @@
       @apply bg-background text-foreground;
     }
   }
-
+  /* #8a05ff */
   ::selection {
-    background-color: #ffdea6; /* Background color of the selection */
+    background-color: #cd95ff; /* Background color of the selection */
     color: black; /* Text color of the selection */
 }
 
 /* For Mozilla Firefox */
 ::-moz-selection {
-    background-color: #ffdea6; /* Background color of the selection */
+    background-color: #cd95ff; /* Background color of the selection */
     color: black; /* Text color of the selection */
 }
 

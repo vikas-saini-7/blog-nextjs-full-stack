@@ -10,11 +10,13 @@ interface Category {
   };
 }
 
+const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
+
 const Filters = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const fetchCategories = async () => {
-    const url = "http://localhost:1337/api/categories?populate=*";
+    const url = `${BACKEND_URL}/api/categories?populate=*`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
