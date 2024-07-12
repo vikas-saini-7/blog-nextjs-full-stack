@@ -72,8 +72,8 @@ const page = () => {
   }, []);
   return (
     <main className="">
-      <div className="container mx-auto flex">
-        <div className="w-2/3 mr-8 py-8">
+      <div className="container mx-auto flex flex-col md:flex-row">
+        <div className="w-full md:w-2/3 mr-8 py-8">
           <div className="mb-8 flex items-center justify-between">
             <Breadcrumb>
               <BreadcrumbList>
@@ -175,7 +175,7 @@ const page = () => {
           </div>
           {/* POSTS end */}
         </div>
-        <div className="w-1/3 border-l pl-8 py-8 sticky top-0 h-[100vh]">
+        <div className="w-full md:w-1/3 md:border-l md:pl-8 py-8 sticky top-0 md:h-[100vh]">
           <div>
             <h1 className="mb-4">Discover More...</h1>
           </div>

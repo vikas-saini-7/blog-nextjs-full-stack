@@ -90,9 +90,9 @@ const Page: React.FC = () => {
 
   return (
     <main className="">
-      <div className="container mx-auto flex">
+      <div className="container mx-auto flex flex-col md:flex-row">
         {/* COLUMN 1 */}
-        <div className="w-2/3 mr-8 py-8">
+        <div className="w-full md:w-2/3 mr-8 py-8">
           <div className="mb-8">
             <Breadcrumb>
               <BreadcrumbList>
@@ -170,7 +170,7 @@ const Page: React.FC = () => {
         </div>
 
         {/* COLUMN 2  */}
-        <div className="w-1/3 border-l pl-8 py-8 sticky top-0 h-[100vh]">
+        <div className="w-full md:w-1/3 md:border-l md:pl-8 py-8 sticky top-0 md:h-[100vh]">
           <div>
             <h1 className="mb-4">You may also like...</h1>
           </div>

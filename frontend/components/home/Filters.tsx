@@ -36,10 +36,10 @@ const Filters = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-between mb-8">
-      <Input placeholder="Search" className="w-1/3 rounded-full px-6" />
+    <div className="flex flex-col lg:flex-row items-center justify-between mb-8">
+      <Input placeholder="Search" className="lg:w-1/3 rounded-full px-6 mb-4 lg:mb-0" />
       <div className="flex items-center gap-4">
-        <h1 className="text-sm">Categories:</h1>
+        <h1 className="text-sm hidden">Categories:</h1>
         {categories?.map((item: any) => (
           <Link href={`/posts/category/${item.id}`}>
             <span
