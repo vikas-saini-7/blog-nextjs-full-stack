@@ -45,14 +45,14 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "http://localhost:1337";
+const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
 
 const page = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [layoutDefault, setLayoutDefault] = useState<Boolean>(true);
 
   const fetchBlogs = async () => {
-    const url = "http://localhost:1337/api/blogs?populate=*";
+    const url = `${BACKEND_URL}/api/blogs?populate=*`;
     try {
       const response = await fetch(url);
       if (!response.ok) {

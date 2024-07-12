@@ -60,7 +60,7 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "http://localhost:1337";
+const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
 
 const Page: React.FC = () => {
   const { id } = useParams();

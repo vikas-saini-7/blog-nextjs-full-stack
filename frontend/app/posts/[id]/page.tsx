@@ -33,7 +33,7 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "http://localhost:1337";
+const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
 
 interface PostAttributes {
   author: string;
@@ -69,7 +69,7 @@ const Page: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const fetchBlogs = async () => {
-    const url = `http://localhost:1337/api/blogs/${id}?populate=*`;
+    const url = `${BACKEND_URL}/api/blogs/${id}?populate=*`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
