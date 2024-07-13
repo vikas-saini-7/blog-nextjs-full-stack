@@ -2,19 +2,19 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PostsSkeleton from "../skeletons/PostsSkeleton";
+import client from "@/sanityClient";
 
 interface Post {
   id: number;
-  attributes: {
-    author: string;
-    createdAt: string;
-    title: string;
-    description: string;
-    tags: string[];
-    readTime: string;
-    image: any;
-    categories: any;
-  };
+  author: string;
+  createdAt: string;
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  readTime: string;
+  image: any;
+  categories: any;
 }
 
 const getPrettyDate = (dateString: string): string => {
@@ -36,19 +36,24 @@ const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const fetchBlogs = async () => {
-    const url = `${BACKEND_URL}/api/blogs?populate=*`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`An error has occurred: ${response.status}`);
-      }
-      const result = await response.json();
-      setPosts(result.data);
-      // console.log(result.data);
-      return;
-    } catch (error) {
-      console.error("Fetching error:", error);
-    }
+    // Fetch blog data from Sanity
+    const blogs = await client.fetch(`*[_type == "blog"] {
+      _id,
+      title,
+      description,
+      author,
+      date,
+      readTime,
+      image {
+        asset -> {
+          url
+        }
+      },
+      categories[]->{ name }
+      // Add more fields as needed
+    }`);
+    setPosts(blogs);
+    console.log(blogs);
   };
 
   useEffect(() => {
@@ -59,7 +64,7 @@ const Posts: React.FC = () => {
     <>
       <div>
         {posts?.map((item) => (
-          <div key={item.id} className="mt-4 border-t py-8 flex flex-col">
+          <div key={item?.id} className="mt-4 border-t py-8 flex flex-col">
             <div className="flex mb-4">
               <img
                 className="h-12 rounded-full"
@@ -68,9 +73,9 @@ const Posts: React.FC = () => {
               />
               <div className="pl-4">
                 <div className="flex items-center gap-3">
-                  <h1>{item.attributes.author}</h1>
+                  <h1>{item.author}</h1>
                   <p className="text-xs text-gray-500">
-                    {getPrettyDate(item.attributes.createdAt)}
+                    {getPrettyDate(item.date)}
                   </p>
                 </div>
                 <p className="text-sm text-gray-500">Software Developer</p>
@@ -80,32 +85,28 @@ const Posts: React.FC = () => {
               <div className="w-full md:w-2/3">
                 <Link href={`/posts/${item.id}`}>
                   <h1 className="text-xl font-bold mb-2 hover:text-purple-700">
-                    {item.attributes.title}
+                    {item.title}
                   </h1>
                 </Link>
-                <p className="text-sm text-gray-500">
-                  {item.attributes.description}
-                </p>
+                <p className="text-sm text-gray-500">{item.description}</p>
               </div>
               <img
                 className="w-full md:w-1/3 rounded-lg grayscale"
-                src={`${BACKEND_URL}${item?.attributes?.image?.data?.attributes?.url}`}
+                src={`${item.image.asset.url}`}
                 alt=""
               />
             </div>
             <div className="flex items-center gap-4 mt-4">
-              {item.attributes?.categories?.data.map(
-                (category: any, index: number) => (
-                  <Link href={`/posts/category/${category.id}`}>
-                    <span
-                      key={index}
-                      className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                    >
-                      {category?.attributes?.name}
-                    </span>
-                  </Link>
-                )
-              )}
+              {item?.categories?.map((category: any, index: number) => (
+                <Link href={`/posts/category/${category.id}`}>
+                  <span
+                    key={index}
+                    className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                  >
+                    {category?.name}
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
         ))}

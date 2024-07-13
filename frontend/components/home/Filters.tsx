@@ -20,7 +20,7 @@ const Filters = () => {
     const query = `*[_type == "category"]{name}`;
     const res = await client.fetch(query);
     setCategories(res);
-    console.log(res);
+    // console.log(res);
   };
   // const fetchCategories = async () => {
   //   const url = `${BACKEND_URL}/api/categories?populate=*`;
