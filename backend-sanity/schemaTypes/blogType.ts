@@ -45,7 +45,8 @@ export const blogType = defineType({
     defineField({
       name: 'content',
       title: 'Content',
-      type: 'richText', // Define your rich text type according to your Sanity schema
+      type: 'array',
+      of: [{type: 'block'}]
     }),
   ],
 });
