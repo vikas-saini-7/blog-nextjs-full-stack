@@ -11,7 +11,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="bg-black text-white">
-      <div className="container mx-auto flex items-center justify-between p-12">
+      <div className="container mx-auto flex flex-col gap-8 text-center md:text-left md:flex-row items-center justify-between p-12">
         <div>
           <h1
             style={{ letterSpacing: "1px" }}
