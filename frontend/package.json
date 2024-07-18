@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
+    "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^6.21.0",
     "@tabler/icons-react": "^3.9.0",
     "class-variance-authority": "^0.7.0",
