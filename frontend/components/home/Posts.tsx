@@ -3,9 +3,10 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import PostsSkeleton from "../skeletons/PostsSkeleton";
 import client from "@/sanityClient";
+import axios from "axios";
 
 interface Post {
-  id: number;
+  _id: number;
   author: string;
   createdAt: string;
   title: string;
@@ -23,48 +24,33 @@ const getPrettyDate = (dateString: string): string => {
     year: "numeric",
     month: "long",
     day: "numeric",
-    // hour: '2-digit',
-    // minute: '2-digit',
-    // second: '2-digit',
   };
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
+const BACKEND_URL = "http://localhost:8000";
 
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
-  const fetchBlogs = async () => {
-    // Fetch blog data from Sanity
-    const blogs = await client.fetch(`*[_type == "blog"] {
-      _id,
-      title,
-      description,
-      author,
-      date,
-      readTime,
-      image {
-        asset -> {
-          url
-        }
-      },
-      categories[]->{ name }
-      // Add more fields as needed
-    }`);
-    setPosts(blogs);
-    console.log(blogs);
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/posts`);
+      setPosts(response.data.results);
+    } catch (error: any) {
+      console.log("Error fetching home posts", error.message);
+    }
   };
 
   useEffect(() => {
-    fetchBlogs();
+    fetchPosts();
   }, []);
 
   return (
     <>
       <div>
         {posts?.map((item) => (
-          <div key={item?.id} className="mt-4 border-t py-8 flex flex-col">
+          <div key={item?._id} className="mt-4 border-t py-8 flex flex-col">
             <div className="flex mb-4">
               <img
                 className="h-12 rounded-full"
@@ -73,9 +59,9 @@ const Posts: React.FC = () => {
               />
               <div className="pl-4">
                 <div className="flex items-center gap-3">
-                  <h1>{item.author}</h1>
+                  <h1>{item?.author}</h1>
                   <p className="text-xs text-gray-500">
-                    {getPrettyDate(item.date)}
+                    {getPrettyDate(item?.createdAt)}
                   </p>
                 </div>
                 <p className="text-sm text-gray-500">Software Developer</p>
@@ -83,16 +69,16 @@ const Posts: React.FC = () => {
             </div>
             <div className="flex flex-col md:flex-row justify-between gap-4 lg:gap-8">
               <div className="w-full md:w-2/3">
-                <Link href={`/posts/${item.id}`}>
+                <Link href={`/posts/${item?._id}`}>
                   <h1 className="text-xl font-bold mb-2 hover:text-purple-700">
-                    {item.title}
+                    {item?.title}
                   </h1>
                 </Link>
-                <p className="text-sm text-gray-500">{item.description}</p>
+                <p className="text-sm text-gray-500">{item?.description}</p>
               </div>
               <img
                 className="w-full md:w-1/3 rounded-lg grayscale"
-                src={`${item.image.asset.url}`}
+                src={`${item?.image}`}
                 alt=""
               />
             </div>

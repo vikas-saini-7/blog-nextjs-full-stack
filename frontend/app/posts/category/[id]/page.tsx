@@ -11,43 +11,22 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-interface CategoryAttributes {
-  name: string;
-  blogs: {
-    data: Blog[];
-  };
-}
+import axios from "axios";
 
 interface Category {
-  id: number;
-  attributes: CategoryAttributes;
+  _id: string;
+  name: string;
+  posts: Post[];
 }
 
-interface BlogAttributes {
+interface Post {
+  _id: string;
   title: string;
   description: string;
   createdAt: string;
   author: string;
-  image: {
-    data: {
-      attributes: {
-        url: string;
-      };
-    };
-  };
-  categories: {
-    data: {
-      attributes: {
-        name: string;
-      };
-    }[];
-  };
-}
-
-interface Blog {
-  id: number;
-  attributes: BlogAttributes;
+  image: string;
+  categories: any;
 }
 
 const getPrettyDate = (dateString: string): string => {
@@ -60,25 +39,18 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
+const BACKEND_URL = "http://localhost:8000";
 
 const Page: React.FC = () => {
   const { id } = useParams();
   const [category, setCategory] = useState<Category | null>(null);
-  const [categoryBlogs, setCategoryBlogs] = useState<Blog[]>([]);
 
   const fetchCategoryData = async () => {
-    const url = `${BACKEND_URL}/api/categories/${id}?populate=*`;
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`An error has occurred: ${response.status}`);
-      }
-      const result = await response.json();
-      setCategory(result.data);
-      setCategoryBlogs(result.data.attributes.blogs.data);
-      console.log(result.data.attributes.blogs.data);
-      console.log(result.data);
+      console.log(id);
+      const response = await axios.get(`${BACKEND_URL}/api/categories/${id}`);
+      setCategory(response.data.results);
+      console.log(response.data.results);
     } catch (error) {
       console.error("Fetching error:", error);
     }
@@ -104,7 +76,7 @@ const Page: React.FC = () => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{category?.attributes?.name}</BreadcrumbPage>
+                  <BreadcrumbPage>{category?.name}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -114,8 +86,8 @@ const Page: React.FC = () => {
           </div>
           {/* posts  start*/}
           <div>
-            {categoryBlogs?.map((item) => (
-              <div key={item.id} className="mt-4 border-t py-8 flex flex-col">
+            {category?.posts?.map((item) => (
+              <div key={item?._id} className="mt-4 border-t py-8 flex flex-col">
                 <div className="flex mb-4">
                   <img
                     className="h-12 rounded-full"
@@ -124,9 +96,9 @@ const Page: React.FC = () => {
                   />
                   <div className="pl-4">
                     <div className="flex items-center gap-3">
-                      <h1>{item.attributes.author}</h1>
+                      <h1>{item?.author}</h1>
                       <p className="text-xs text-gray-500">
-                        {getPrettyDate(item.attributes.createdAt)}
+                        {getPrettyDate(item?.createdAt)}
                       </p>
                     </div>
                     <p className="text-sm text-gray-500">Software Developer</p>
@@ -134,23 +106,21 @@ const Page: React.FC = () => {
                 </div>
                 <div className="flex justify-between gap-4 lg:gap-8">
                   <div className="w-2/3">
-                    <Link href={`/posts/${item.id}`}>
+                    <Link href={`/posts/${item?._id}`}>
                       <h1 className="text-xl font-bold mb-2 hover:text-gray-700">
-                        {item.attributes.title}
+                        {item?.title}
                       </h1>
                     </Link>
-                    <p className="text-sm text-gray-500">
-                      {item.attributes.description}
-                    </p>
+                    <p className="text-sm text-gray-500">{item?.description}</p>
                   </div>
                   <img
                     className="w-1/3 rounded-lg grayscale"
-                    src={`${BACKEND_URL}${item?.attributes?.image?.data?.attributes?.url}`}
+                    src={item?.image}
                     alt=""
                   />
                 </div>
-                <div className="flex items-center gap-4 mt-4">
-                  {item?.attributes?.categories?.data.map((category, index) => (
+                {/* <div className="flex items-center gap-4 mt-4">
+                  {item?.categories?.data.map((category, index) => (
                     <span
                       key={index}
                       className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
@@ -158,7 +128,7 @@ const Page: React.FC = () => {
                       {category?.attributes?.name}
                     </span>
                   ))}
-                </div>
+                </div> */}
               </div>
             ))}
           </div>

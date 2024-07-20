@@ -18,10 +18,12 @@ const postSchema = new mongoose.Schema(
     author: {
       type: String,
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-    },
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+      },
+    ],
     image: {
       type: String,
     },
@@ -34,4 +36,4 @@ const postSchema = new mongoose.Schema(
 //   return this.content.substring(0, excerptLength).trim();
 // });
 
-module.exports = mongoose.model("post", postSchema);
+module.exports = mongoose.model("Post", postSchema);

@@ -3,43 +3,33 @@ import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import Link from "next/link";
 import client from "@/sanityClient";
+import axios from "axios";
 
 interface Category {
-  id: number;
+  _id: number;
   attributes: {
     name: string;
   };
 }
 
-const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
+const BACKEND_URL = "http://localhost:8000";
 
 const Filters = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const fetchCategories = async () => {
-    const query = `*[_type == "category"]{name}`;
-    const res = await client.fetch(query);
-    setCategories(res);
-    // console.log(res);
+    const url = `${BACKEND_URL}/api/categories`;
+    try {
+      const response = await axios.get(url);
+      setCategories(response.data.results);
+      console.log(response.data.results);
+      return;
+    } catch (error) {
+      console.error("Fetching error:", error);
+    }
   };
-  // const fetchCategories = async () => {
-  //   const url = `${BACKEND_URL}/api/categories?populate=*`;
-  //   try {
-  //     const response = await fetch(url);
-  //     if (!response.ok) {
-  //       throw new Error(`An error has occurred: ${response.status}`);
-  //     }
-  //     const result = await response.json();
-  //     setCategories(result.data);
-  //     // console.log(result.data);
-  //     return;
-  //   } catch (error) {
-  //     console.error("Fetching error:", error);
-  //   }
-  // };
 
   useEffect(() => {
-    //   fetchCategories();
     fetchCategories();
   }, []);
 
@@ -51,12 +41,9 @@ const Filters = () => {
       />
       <div className="flex items-center gap-4 flex-wrap">
         {categories?.map((item: any) => (
-          <Link href={`/posts/category/${item.id}`}>
-            <span
-              className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-              key={item.id}
-            >
-              {item.name}
+          <Link key={item?._id} href={`/posts/category/${item?._id}`}>
+            <span className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6">
+              {item?.name}
             </span>
           </Link>
         ))}

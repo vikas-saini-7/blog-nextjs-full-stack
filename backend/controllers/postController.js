@@ -1,3 +1,4 @@
+const Category = require("../model/categoryModel");
 const { find, findById } = require("../model/categoryModel");
 const Post = require("../model/postModel");
 
@@ -23,13 +24,28 @@ exports.createPost = async (req, res) => {
       title,
       content,
       author = "Vikas Saini",
-      category,
+      categories,
       image = "https://strapi.dhiwise.com/uploads/Blog_Common_Image_Next_OG_Image_8ab5e85f77.png",
     } = req.body;
 
-    const newPost = new Post({ title, content, author, category, image });
+    const categoryObjs = await Category.find({ _id: { $in: categories } });
+
+    if (categoryObjs.length !== categories.length) {
+      return res.status(404).json({
+        status: "fail",
+        message: "One or more categories not found",
+      });
+    }
+
+    const newPost = new Post({ title, content, author, categories, image });
 
     const savedPost = await newPost.save();
+
+    // Update the posts array of each category
+    await Category.updateMany(
+      { _id: { $in: categories } },
+      { $push: { posts: savedPost._id } }
+    );
 
     res.status(200).json({
       status: "success",

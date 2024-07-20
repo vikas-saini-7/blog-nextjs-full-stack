@@ -10,26 +10,19 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {
-  IconGrid3x3,
-  IconGrid4x4,
-  IconGridDots,
-  IconLayoutColumns,
-  IconLayoutRows,
-} from "@tabler/icons-react";
+import { IconLayoutColumns, IconLayoutRows } from "@tabler/icons-react";
+import axios from "axios";
 
 interface Post {
-  id: number;
-  attributes: {
-    author: string;
-    createdAt: string;
-    title: string;
-    description: string;
-    tags: string[];
-    readTime: string;
-    image: any;
-    categories: any;
-  };
+  _id: number;
+  author: string;
+  createdAt: string;
+  title: string;
+  description: string;
+  tags: string[];
+  readTime: string;
+  image: any;
+  categories: any;
 }
 
 const getPrettyDate = (dateString: string): string => {
@@ -45,30 +38,23 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
+const BACKEND_URL = "http://localhost:8000";
 
 const page = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [layoutDefault, setLayoutDefault] = useState<Boolean>(true);
 
-  const fetchBlogs = async () => {
-    const url = `${BACKEND_URL}/api/blogs?populate=*`;
+  const fetchPosts = async () => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`An error has occurred: ${response.status}`);
-      }
-      const result = await response.json();
-      setPosts(result.data);
-      // console.log(result.data);
-      return;
-    } catch (error) {
-      console.error("Fetching error:", error);
+      const response = await axios.get(`${BACKEND_URL}/api/posts`);
+      setPosts(response.data.results);
+    } catch (error: any) {
+      console.log("Error fetching home posts", error.message);
     }
   };
 
   useEffect(() => {
-    fetchBlogs();
+    fetchPosts();
   }, []);
   return (
     <main className="">
@@ -116,7 +102,7 @@ const page = () => {
           {/* posts  start*/}
           <div>
             {posts?.map((item) => (
-              <div key={item.id} className="mt-4 border-t py-8 flex flex-col">
+              <div key={item._id} className="mt-4 border-t py-8 flex flex-col">
                 <div className="flex mb-4">
                   <img
                     className="h-12 rounded-full"
@@ -125,46 +111,44 @@ const page = () => {
                   />
                   <div className="pl-4">
                     <div className="flex items-center gap-3">
-                      <h1>{item.attributes.author}</h1>
+                      <h1>{item?.author}</h1>
                       <p className="text-xs text-gray-500">
-                        {getPrettyDate(item.attributes.createdAt)}
+                        {getPrettyDate(item?.createdAt)}
                       </p>
                     </div>
                     <p className="text-sm text-gray-500">Software Developer</p>
                   </div>
                 </div>
                 <div
-                  className={`flex justify-between gap-4 lg:gap-8 ${
+                  className={`flex justify-between gap-4 lg:gap-4 ${
                     !layoutDefault && "flex-col gap-2 lg:gap-2"
                   }`}
                 >
                   <div className={`w-2/3 ${!layoutDefault && "w-full"}`}>
-                    <Link href={`/posts/${item.id}`}>
+                    <Link href={`/posts/${item?._id}`}>
                       <h1 className="text-xl font-bold mb-2 hover:text-gray-700">
-                        {item.attributes.title}
+                        {item?.title}
                       </h1>
                     </Link>
-                    <p className="text-sm text-gray-500">
-                      {item.attributes.description}
-                    </p>
+                    <p className="text-sm text-gray-500">{item?.description}</p>
                   </div>
                   <img
                     className={`w-1/3 rounded-lg grayscale ${
                       !layoutDefault && "w-full"
                     }`}
-                    src={`${BACKEND_URL}${item?.attributes?.image?.data?.attributes?.url}`}
+                    src={item?.image}
                     alt=""
                   />
                 </div>
                 <div className="flex items-center gap-4 mt-4">
-                  {item?.attributes?.categories?.data.map(
+                  {item?.categories?.data?.map(
                     (category: any, index: number) => (
-                      <Link href={`/posts/category/${category.id}`}>
+                      <Link href={`/posts/category/${category?._id}`}>
                         <span
                           key={index}
                           className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
                         >
-                          {category?.attributes?.name}
+                          {category?.name}
                         </span>
                       </Link>
                     )

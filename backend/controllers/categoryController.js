@@ -3,7 +3,6 @@ const Category = require("../model/categoryModel");
 exports.getAllCategories = async (req, res) => {
   try {
     const Categories = await Category.find();
-    console.log(Categories);
     res.status(200).json({
       status: "success",
       results: Categories,

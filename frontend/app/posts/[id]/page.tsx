@@ -19,6 +19,7 @@ import {
   IconShare2,
   IconShare3,
 } from "@tabler/icons-react";
+import axios from "axios";
 
 const getPrettyDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -33,9 +34,10 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "https://vikas-saini-blog.onrender.com";
+const BACKEND_URL = "http://localhost:8000";
 
-interface PostAttributes {
+interface Post {
+  _id: string;
   author: string;
   createdAt: string;
   title: string;
@@ -43,49 +45,30 @@ interface PostAttributes {
   tags: string[];
   readTime: string;
   content: any;
-  image: {
-    data: {
-      attributes: {
-        url: string;
-      };
-    };
-  };
-  categories: {
-    data: {
-      attributes: {
-        name: string;
-      };
-    }[];
-  };
-}
-
-interface Post {
-  id: number;
-  attributes: PostAttributes;
+  image: string;
+  categories: any;
 }
 
 const Page: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
   const { id } = useParams<{ id: string }>();
 
-  const fetchBlogs = async () => {
-    const url = `${BACKEND_URL}/api/blogs/${id}?populate=*`;
+  const fetchPost = async () => {
+    const url = `${BACKEND_URL}/api/posts/${id}`;
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`An error has occurred: ${response.status}`);
-      }
-      const result = await response.json();
-      setPost(result.data);
-      console.log(result.data);
-      return result.data;
+      const response = await axios.get(url);
+
+      setPost(response.data.results);
+      console.log(response.data.results);
     } catch (error) {
       console.error("Fetching error:", error);
     }
   };
 
   useEffect(() => {
-    fetchBlogs();
+    if (id) {
+      fetchPost();
+    }
   }, [id]);
 
   return (
@@ -105,7 +88,7 @@ const Page: React.FC = () => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{post?.attributes?.title}</BreadcrumbPage>
+                  <BreadcrumbPage>{post?.title}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -120,15 +103,15 @@ const Page: React.FC = () => {
               />
               <div className="pl-4">
                 <div className="flex items-center gap-3">
-                  <h1>{post?.attributes?.author}</h1>
+                  <h1>{post?.author}</h1>
                   <p className="text-xs text-gray-500">
-                    {post && getPrettyDate(post.attributes.createdAt)}
+                    {post && getPrettyDate(post?.createdAt)}
                   </p>
                 </div>
                 <p className="text-sm text-gray-500">Software Developer</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               {post?.attributes?.categories?.data.map(
                 (category: any, index) => (
                   <Link href={`/posts/category/${category.id}`}>
@@ -141,13 +124,13 @@ const Page: React.FC = () => {
                   </Link>
                 )
               )}
-            </div>
+            </div> */}
           </div>
-          <h1 className="text-2xl font-bold mb-2">{post?.attributes?.title}</h1>
-          {post?.attributes?.image?.data?.attributes?.url && (
+          <h1 className="text-2xl font-bold mb-2">{post?.title}</h1>
+          {post?.image && (
             <img
               className="w-full rounded-lg"
-              src={`${BACKEND_URL}${post.attributes.image.data.attributes.url}`}
+              src={post?.image}
               alt=""
             />
           )}
@@ -155,7 +138,7 @@ const Page: React.FC = () => {
           <div className="mt-4">
             <div
               className="blog-content"
-              dangerouslySetInnerHTML={{ __html: post?.attributes?.content }}
+              dangerouslySetInnerHTML={{ __html: post?.content }}
             />
           </div>
           {/* SHARE  */}
