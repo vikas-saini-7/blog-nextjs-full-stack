@@ -12,7 +12,7 @@ const layout = ({
       <Header />
       <div className="grid h-[calc(100vh-65px)] md:grid-cols-[200px_1fr] lg:grid-cols-[300px_1fr]">
         <Sidebar />
-        <div className="">{children}</div>
+        <div className="overflow-auto">{children}</div>
       </div>
     </div>
   );

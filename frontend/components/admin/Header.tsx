@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { IconBell, IconMenu2 } from "@tabler/icons-react";
+import { IconBell } from "@tabler/icons-react";
 import { Button } from "../ui/button";
 const Header = () => {
   return (

@@ -76,7 +76,10 @@ const Posts: React.FC = () => {
                   </h1>
                 </Link>
                 <p className="text-sm text-gray-500">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur sit itaque eius dolore, placeat unde dicta ipsa tenetur laborum exercitationem rerum explicabo impedit animi? Esse quae incidunt quia nihil similique.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Consequuntur sit itaque eius dolore, placeat unde dicta ipsa
+                  tenetur laborum exercitationem rerum explicabo impedit animi?
+                  Esse quae incidunt quia nihil similique.
                 </p>
               </div>
               <img

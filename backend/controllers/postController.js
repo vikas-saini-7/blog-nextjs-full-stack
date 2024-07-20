@@ -23,6 +23,7 @@ exports.createPost = async (req, res) => {
     const {
       title,
       content,
+      description,
       author = "Vikas Saini",
       categories,
       image = "https://strapi.dhiwise.com/uploads/Blog_Common_Image_Next_OG_Image_8ab5e85f77.png",
@@ -30,14 +31,21 @@ exports.createPost = async (req, res) => {
 
     const categoryObjs = await Category.find({ _id: { $in: categories } });
 
-    if (categoryObjs.length !== categories.length) {
-      return res.status(404).json({
-        status: "fail",
-        message: "One or more categories not found",
-      });
-    }
+    // if (categoryObjs.length !== categories.length) {
+    //   return res.status(404).json({
+    //     status: "fail",
+    //     message: "One or more categories not found",
+    //   });
+    // }
 
-    const newPost = new Post({ title, content, author, categories, image });
+    const newPost = new Post({
+      title,
+      content,
+      description,
+      author,
+      categories,
+      image,
+    });
 
     const savedPost = await newPost.save();
 
