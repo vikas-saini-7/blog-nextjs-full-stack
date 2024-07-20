@@ -1,14 +1,19 @@
+"use client";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
-  IconBrandTwitch,
   IconBrandTwitter,
   IconCopyright,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const Footer = () => {
+  const pathname = usePathname();
+  if (pathname.includes("/admin")) {
+    return;
+  }
   return (
     <div className="bg-black text-white">
       <div className="container mx-auto flex flex-col gap-8 text-center md:text-left md:flex-row items-center justify-between p-12">

@@ -1,10 +1,17 @@
+"use client";
 import { IconBell, IconBrandLinkedin, IconMenu2 } from "@tabler/icons-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { ProfileDrawer } from "./ProfileDrawer";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
+  const pathname = usePathname();
+  console.log(pathname);
+  if (pathname.includes("/admin")) {
+    return;
+  }
   return (
     <header className="py-3 border-b">
       <div className="container mx-auto flex items-center justify-between">
