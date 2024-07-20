@@ -90,3 +90,28 @@ exports.getPostById = async (req, res) => {
     });
   }
 };
+
+exports.deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedPost = await Post.findByIdAndDelete(id);
+
+    if (!deletedPost) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Post with this id does now exist",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      results: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "fail",
+      message: `Error in deleting post ${error.message}`,
+    });
+  }
+};

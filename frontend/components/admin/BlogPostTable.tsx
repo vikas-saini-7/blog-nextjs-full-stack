@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
+import DeletePost from "./DeletePost";
 
 interface Post {
   _id: number;
@@ -78,13 +79,7 @@ const BlogPostTable = () => {
                 <Button size={"sm"} variant={"outline"}>
                   <IconEdit />
                 </Button>
-                <Button
-                  size={"sm"}
-                  className="bg-red-500/30 hover:bg-red-500"
-                  variant={"outline"}
-                >
-                  <IconTrash />
-                </Button>
+                <DeletePost _id={post?._id} />
               </TableCell>
             </TableRow>
           ))}
