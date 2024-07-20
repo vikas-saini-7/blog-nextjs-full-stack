@@ -28,7 +28,7 @@ export default function Home() {
           <div className="p-6 bg-gray-100 rounded-lg mb-8">
             <div>
               <h1 className="font-bold mb-2">
-                Get unlimited access to everything on Reader
+                Get unlimited access to everything on our Blog
               </h1>
               <p className="text-xs text-gray-500 mb-4">
                 Plans starting at least than $1/week.

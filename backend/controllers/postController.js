@@ -4,7 +4,7 @@ const Post = require("../model/postModel");
 
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("categories");
 
     res.status(200).json({
       status: "success",
@@ -62,7 +62,7 @@ exports.createPost = async (req, res) => {
 exports.getPostById = async (req, res) => {
   try {
     const { id } = req.params;
-    const post = await Post.findById(id);
+    const post = await Post.findById(id).populate("categories");
 
     if (!post) {
       return res.status(404).json({

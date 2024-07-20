@@ -104,8 +104,8 @@ const Page: React.FC = () => {
                     <p className="text-sm text-gray-500">Software Developer</p>
                   </div>
                 </div>
-                <div className="flex justify-between gap-4 lg:gap-8">
-                  <div className="w-2/3">
+                <div className="flex flex-col md:flex-row justify-between gap-4 lg:gap-8">
+                  <div className="w-full md:w-2/3">
                     <Link href={`/posts/${item?._id}`}>
                       <h1 className="text-xl font-bold mb-2 hover:text-gray-700">
                         {item?.title}
@@ -114,21 +114,23 @@ const Page: React.FC = () => {
                     <p className="text-sm text-gray-500">{item?.description}</p>
                   </div>
                   <img
-                    className="w-1/3 rounded-lg grayscale"
+                    className="w-full md:w-1/3 rounded-lg grayscale"
                     src={item?.image}
                     alt=""
                   />
                 </div>
-                {/* <div className="flex items-center gap-4 mt-4">
-                  {item?.categories?.data.map((category, index) => (
-                    <span
-                      key={index}
-                      className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                    >
-                      {category?.attributes?.name}
-                    </span>
+                <div className="flex items-center gap-4 mt-4">
+                  {item?.categories?.map((category: any, index: number) => (
+                    <Link href={`/posts/category/${category._id}`}>
+                      <span
+                        key={index}
+                        className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                      >
+                        {category?.name}
+                      </span>
+                    </Link>
                   ))}
-                </div> */}
+                </div>
               </div>
             ))}
           </div>

@@ -42,7 +42,7 @@ const BACKEND_URL = "http://localhost:8000";
 
 const page = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [layoutDefault, setLayoutDefault] = useState<Boolean>(true);
+  const [layoutDefault, setLayoutDefault] = useState<Boolean>(false);
 
   const fetchPosts = async () => {
     try {
@@ -91,7 +91,7 @@ const page = () => {
                 }}
                 className={`rounded-l-none h-8 ${
                   layoutDefault && "bg-gray-100"
-                }`}
+                } hidden md:inline`}
                 variant={"outline"}
                 size={"sm"}
               >
@@ -141,18 +141,16 @@ const page = () => {
                   />
                 </div>
                 <div className="flex items-center gap-4 mt-4">
-                  {item?.categories?.data?.map(
-                    (category: any, index: number) => (
-                      <Link href={`/posts/category/${category?._id}`}>
-                        <span
-                          key={index}
-                          className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                        >
-                          {category?.name}
-                        </span>
-                      </Link>
-                    )
-                  )}
+                  {item?.categories?.map((category: any, index: number) => (
+                    <Link href={`/posts/category/${category?._id}`}>
+                      <span
+                        key={index}
+                        className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                      >
+                        {category?.name}
+                      </span>
+                    </Link>
+                  ))}
                 </div>
               </div>
             ))}

@@ -111,28 +111,22 @@ const Page: React.FC = () => {
                 <p className="text-sm text-gray-500">Software Developer</p>
               </div>
             </div>
-            {/* <div className="flex items-center gap-4">
-              {post?.attributes?.categories?.data.map(
-                (category: any, index) => (
-                  <Link href={`/posts/category/${category.id}`}>
-                    <span
-                      key={index}
-                      className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
-                    >
-                      {category.attributes.name}
-                    </span>
-                  </Link>
-                )
-              )}
-            </div> */}
+            <div className="flex items-center gap-4">
+              {post?.categories?.map((category: any, index: number) => (
+                <Link href={`/posts/category/${category._id}`}>
+                  <span
+                    key={index}
+                    className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
+                  >
+                    {category?.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
           <h1 className="text-2xl font-bold mb-2">{post?.title}</h1>
           {post?.image && (
-            <img
-              className="w-full rounded-lg"
-              src={post?.image}
-              alt=""
-            />
+            <img className="w-full rounded-lg" src={post?.image} alt="" />
           )}
           {/* CONTENT  */}
           <div className="mt-4">

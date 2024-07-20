@@ -10,10 +10,13 @@ const postSchema = new mongoose.Schema(
     content: {
       type: String,
       required: true,
-    },
-    excerpt: {
-      type: String,
       trim: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: [200, "200 characters only [i. e. ~30 words ]."],
     },
     author: {
       type: String,

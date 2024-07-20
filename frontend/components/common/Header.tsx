@@ -1,10 +1,8 @@
-import {
-  IconBell,
-  IconBrandLinkedin,
-  IconMenu2,
-} from "@tabler/icons-react";
+import { IconBell, IconBrandLinkedin, IconMenu2 } from "@tabler/icons-react";
 import React from "react";
 import { Button } from "../ui/button";
+import { ProfileDrawer } from "./ProfileDrawer";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -13,20 +11,18 @@ const Header = () => {
         <div>
           <IconMenu2 />
         </div>
-        <h1
-          style={{ letterSpacing: "1px" }}
-          className="-mb-2 font-medium text-4xl font-primary uppercase"
-        >
-          Vikas Saini blog
-        </h1>
+        <Link href={"/"}>
+          <h1
+            style={{ letterSpacing: "1px" }}
+            className="-mb-2 font-medium text-2xl md:text-4xl font-primary uppercase"
+          >
+            Vikas Saini blog
+          </h1>
+        </Link>
         <div className="flex items-center gap-4 lg:gap-8">
           <IconBell />
-          <div className="p-1 border rounded-full md:block hidden">
-            <img
-              className="w-10 h-10 rounded-full"
-              src="https://pics.craiyon.com/2023-11-26/oMNPpACzTtO5OVERUZwh3Q.webp"
-              alt=""
-            />
+          <div className="p-1 border rounded-full md:block ">
+            <ProfileDrawer />
           </div>
           <Button className="rounded-xl hidden md:flex">
             <span className="mr-2">Follow Me</span>

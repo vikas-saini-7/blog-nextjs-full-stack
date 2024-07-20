@@ -37,6 +37,7 @@ const Posts: React.FC = () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/posts`);
       setPosts(response.data.results);
+      console.log(response.data.results);
     } catch (error: any) {
       console.log("Error fetching home posts", error.message);
     }
@@ -74,7 +75,9 @@ const Posts: React.FC = () => {
                     {item?.title}
                   </h1>
                 </Link>
-                <p className="text-sm text-gray-500">{item?.description}</p>
+                <p className="text-sm text-gray-500">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur sit itaque eius dolore, placeat unde dicta ipsa tenetur laborum exercitationem rerum explicabo impedit animi? Esse quae incidunt quia nihil similique.
+                </p>
               </div>
               <img
                 className="w-full md:w-1/3 rounded-lg grayscale"
@@ -84,7 +87,7 @@ const Posts: React.FC = () => {
             </div>
             <div className="flex items-center gap-4 mt-4">
               {item?.categories?.map((category: any, index: number) => (
-                <Link href={`/posts/category/${category.id}`}>
+                <Link href={`/posts/category/${category._id}`}>
                   <span
                     key={index}
                     className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6"
