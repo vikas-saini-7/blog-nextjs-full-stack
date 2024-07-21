@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import DeletePost from "./DeletePost";
+import toast from "react-hot-toast";
 
 interface Post {
   _id: number;
@@ -55,6 +55,19 @@ const BlogPostTable = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  const deletePostHandler = async (id: number) => {
+    try {
+      const response = await axios.delete(`${BACKEND_URL}/api/posts/${id}`);
+      if (response.status === 200) {
+        setPosts((prevState) => prevState.filter((post) => post._id !== id));
+        toast.success("Deleted");
+      }
+    } catch (error: any) {
+      console.log("Error fetching home posts", error.message);
+    }
+  };
+
   return (
     <div className="bg-white mt-4 rounded-md">
       <Table>
@@ -79,7 +92,14 @@ const BlogPostTable = () => {
                 <Button size={"sm"} variant={"outline"}>
                   <IconEdit />
                 </Button>
-                <DeletePost _id={post?._id} />
+                <Button
+                  onClick={() => deletePostHandler(post?._id)}
+                  size={"sm"}
+                  className="bg-red-500/30 hover:bg-red-500"
+                  variant={"outline"}
+                >
+                  <IconTrash />
+                </Button>
               </TableCell>
             </TableRow>
           ))}

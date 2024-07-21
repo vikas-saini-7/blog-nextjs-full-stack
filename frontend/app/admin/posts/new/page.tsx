@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { IconArrowBack, IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const BACKEND_URL = "http://localhost:8000";
 
@@ -19,6 +20,7 @@ interface Category {
 
 const page = () => {
   const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [loading, setloading] = useState<Boolean>(false);
 
   const [title, setTitle] = useState<String>();
   const [image, setImage] = useState<String>();
@@ -30,9 +32,10 @@ const page = () => {
     const url = `${BACKEND_URL}/api/categories`;
     try {
       const response = await axios.get(url);
-      setAllCategories(response.data.results);
-      console.log(response.data.results);
-      return;
+      if (response.status === 200) {
+        setAllCategories(response.data.results);
+        console.log(response.data.results);
+      }
     } catch (error) {
       console.error("Fetching error:", error);
     }
@@ -60,11 +63,15 @@ const page = () => {
       categories,
     };
     try {
-      console.log(title, image, description, content, categories);
+      setloading(true);
       const response = await axios.post(`${BACKEND_URL}/api/posts`, postData);
       console.log(response.data.results);
+      toast.success("Post Published successfully");
+      setloading(false);
     } catch (error: any) {
       console.log("error", error.message);
+      toast.error("Some error occured");
+      setloading(false);
     }
   };
 
@@ -135,7 +142,12 @@ const page = () => {
             </div>
           ))}
         </div>
-        <Button onClick={createPostHandler}>Publish</Button>
+        <Button
+          className={`${loading ? "hover:bg-black/50 bg-black/50" : ""}`}
+          onClick={createPostHandler}
+        >
+          {loading ? "Posting..." : "Publish"}
+        </Button>
       </div>
     </div>
   );

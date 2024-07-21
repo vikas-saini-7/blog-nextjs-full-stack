@@ -104,6 +104,9 @@ exports.deletePost = async (req, res) => {
       });
     }
 
+    // Remove the post from all categories
+    await Category.updateMany({ posts: id }, { $pull: { posts: id } });
+
     res.status(200).json({
       status: "success",
       results: null,
