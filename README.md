@@ -12,6 +12,8 @@ A full-stack blog application built with Next.js, showcasing both frontend and b
 
 **Backend:** Node, Express
 
+**Database:** MongoDB
+
 
 
 ## Also created Backend using CMS:
