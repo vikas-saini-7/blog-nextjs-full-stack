@@ -8,9 +8,9 @@ A full-stack blog application built with Next.js, showcasing both frontend and b
 
 ## Tech Stack
 
-**Frontend:** React, Redux, TailwindCSS, NextJS
+**Frontend:** React, Redux, TailwindCSS, NextJS, Typescript
 
-**Backend:** Node, Express
+**Backend:** Node, Express, Javascript
 
 **Database:** MongoDB
 
