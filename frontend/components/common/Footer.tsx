@@ -31,9 +31,18 @@ const Footer = () => {
           <Link href={"/sitemap"}>Sitemap</Link>
         </div>
         <div className="flex gap-4">
-          <IconBrandLinkedin size={32} />
-          <IconBrandTwitter size={32} />
-          <IconBrandGithub size={32} />
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/vikas-saini-602b96227"
+          >
+            <IconBrandLinkedin size={32} />
+          </a>
+          <a target="_blank" href="https://x.com/vikas_saini_dev">
+            <IconBrandTwitter size={32} />
+          </a>
+          <a target="_blank" href="https://github.com/vikas-saini-7">
+            <IconBrandGithub size={32} />
+          </a>
         </div>
       </div>
       <div className="container mx-auto border-t border-gray-500 flex items-center justify-between p-4">

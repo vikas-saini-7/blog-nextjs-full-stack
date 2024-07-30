@@ -107,7 +107,7 @@ const Page: React.FC = () => {
                 <div className="flex flex-col md:flex-row justify-between gap-4 lg:gap-8">
                   <div className="w-full md:w-2/3">
                     <Link href={`/posts/${item?._id}`}>
-                      <h1 className="text-xl font-bold mb-2 hover:text-gray-700">
+                      <h1 className="text-xl font-bold mb-2 hover:text-purple-700">
                         {item?.title}
                       </h1>
                     </Link>

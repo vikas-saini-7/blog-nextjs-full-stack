@@ -15,7 +15,12 @@ const Header = () => {
   return (
     <header className="py-3 border-b">
       <div className="container mx-auto flex items-center justify-between">
-        <div>
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            alert("Coming Soon");
+          }}
+        >
           <IconMenu2 />
         </div>
         <Link href={"/"}>
@@ -31,10 +36,15 @@ const Header = () => {
           <div className="p-1 border rounded-full md:block ">
             <ProfileDrawer />
           </div>
-          <Button className="rounded-xl hidden md:flex">
-            <span className="mr-2">Follow Me</span>
-            <IconBrandLinkedin size={18} />
-          </Button>
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/vikas-saini-602b96227"
+          >
+            <Button className="rounded-xl hidden md:flex">
+              <span className="mr-2">Follow Me</span>
+              <IconBrandLinkedin size={18} />
+            </Button>
+          </a>
         </div>
       </div>
     </header>

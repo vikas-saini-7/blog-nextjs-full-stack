@@ -126,7 +126,11 @@ const Page: React.FC = () => {
           </div>
           <h1 className="text-2xl font-bold mb-2">{post?.title}</h1>
           {post?.image && (
-            <img className="w-full rounded-lg" src={post?.image} alt="" />
+            <img
+              className="min-h-[200px] bg-gray-100 w-full rounded-lg"
+              src={post?.image}
+              alt={`${post?.image} Not found`}
+            />
           )}
           {/* CONTENT  */}
           <div className="mt-4">

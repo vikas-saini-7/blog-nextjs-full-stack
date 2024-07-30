@@ -126,7 +126,7 @@ const page = () => {
                 >
                   <div className={`w-2/3 ${!layoutDefault && "w-full"}`}>
                     <Link href={`/posts/${item?._id}`}>
-                      <h1 className="text-xl font-bold mb-2 hover:text-gray-700">
+                      <h1 className="text-xl font-bold mb-2 hover:text-purple-700">
                         {item?.title}
                       </h1>
                     </Link>

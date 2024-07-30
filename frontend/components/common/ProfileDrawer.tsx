@@ -10,6 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { IconBrandLinkedin } from "@tabler/icons-react";
+import Link from "next/link";
 
 export function ProfileDrawer() {
   return (
@@ -43,11 +44,11 @@ export function ProfileDrawer() {
             </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
-            <div>
+            <a target="_blank" href="https://www.linkedin.com/in/vikas-saini-602b96227">
               <Button className="w-full">
                 Contact &nbsp; <IconBrandLinkedin />
               </Button>
-            </div>
+            </a>
           </DrawerFooter>
         </div>
       </DrawerContent>

@@ -130,4 +130,7 @@
   section{
     margin-bottom: 3rem;
   }
+  p{
+    color: rgb(98, 98, 130);
+  }
 }
