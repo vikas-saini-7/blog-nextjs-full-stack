@@ -10,7 +10,8 @@ import { IconArrowBack, IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://blog-nextjs-backend.onrender.com";
+// const BACKEND_URL = "http://localhost:8000";
 
 interface Category {
   _id: string;

@@ -12,7 +12,8 @@ interface Category {
   };
 }
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://blog-nextjs-backend.onrender.com";
+// const BACKEND_URL = "http://localhost:8000";
 
 const Filters = () => {
   const [categories, setCategories] = useState<Category[]>([]);

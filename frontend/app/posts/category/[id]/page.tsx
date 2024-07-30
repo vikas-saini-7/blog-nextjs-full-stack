@@ -39,7 +39,8 @@ const getPrettyDate = (dateString: string): string => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const BACKEND_URL = "http://localhost:8000";
+const BACKEND_URL = "https://blog-nextjs-backend.onrender.com";
+// const BACKEND_URL = "http://localhost:8000";
 
 const Page: React.FC = () => {
   const { id } = useParams();
