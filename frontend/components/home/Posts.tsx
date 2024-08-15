@@ -33,14 +33,19 @@ const BACKEND_URL = "https://blog-nextjs-backend.onrender.com";
 
 const Posts: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
 
   const fetchPosts = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`${BACKEND_URL}/api/posts`);
-      setPosts(response.data.results);
-      console.log(response.data.results);
+      if (response.status === 200) {
+        setPosts(response.data.results);
+        setLoading(false);
+      }
     } catch (error: any) {
       console.log("Error fetching home posts", error.message);
+      setLoading(false);
     }
   };
 
@@ -51,6 +56,12 @@ const Posts: React.FC = () => {
   return (
     <>
       <div>
+        {loading && (
+          <>
+            <PostsSkeleton />
+            <PostsSkeleton />
+          </>
+        )}
         {posts?.map((item) => (
           <div key={item?._id} className="mt-4 border-t py-8 flex flex-col">
             <div className="flex mb-4">

@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import Link from "next/link";
 import client from "@/sanityClient";
 import axios from "axios";
+import CategoriesSkeleton from "../skeletons/CategoriesSkeleton";
 
 interface Category {
   _id: number;
@@ -17,16 +18,20 @@ const BACKEND_URL = "https://blog-nextjs-backend.onrender.com";
 
 const Filters = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<Boolean>(false);
 
   const fetchCategories = async () => {
     const url = `${BACKEND_URL}/api/categories`;
     try {
+      setLoading(true);
       const response = await axios.get(url);
-      setCategories(response.data.results);
-      console.log(response.data.results);
-      return;
+      if (response.status === 200) {
+        setCategories(response.data.results);
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Fetching error:", error);
+      setLoading(false);
     }
   };
 
@@ -41,6 +46,14 @@ const Filters = () => {
         className="lg:w-1/3 rounded-full px-6 mb-4 lg:mb-0"
       />
       <div className="flex items-center gap-4 flex-wrap">
+        {loading && (
+          <>
+            <CategoriesSkeleton />
+            <CategoriesSkeleton />
+            <CategoriesSkeleton />
+            <CategoriesSkeleton />
+          </>
+        )}
         {categories?.map((item: any) => (
           <Link key={item?._id} href={`/posts/category/${item?._id}`}>
             <span className="text-xs h-10 bg-gray-100 rounded-full flex items-center px-6">
