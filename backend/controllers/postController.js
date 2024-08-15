@@ -1,6 +1,7 @@
 const Category = require("../model/categoryModel");
 const { find, findById } = require("../model/categoryModel");
 const Post = require("../model/postModel");
+const { upload } = require("../utils/multer");
 
 exports.getAllPosts = async (req, res) => {
   try {
@@ -20,44 +21,45 @@ exports.getAllPosts = async (req, res) => {
 
 exports.createPost = async (req, res) => {
   try {
-    const {
-      title,
-      content,
-      description,
-      author = "Vikas Saini",
-      categories,
-      image = "https://strapi.dhiwise.com/uploads/Blog_Common_Image_Next_OG_Image_8ab5e85f77.png",
-    } = req.body;
+    upload.single("image")(req, res, async (err) => {
+      if (err) {
+        return res.status(500).json({
+          status: "fail",
+          message: `Error in uploading image: ${err.message}`,
+        });
+      }
 
-    const categoryObjs = await Category.find({ _id: { $in: categories } });
+      const {
+        title,
+        content,
+        description,
+        author = "Vikas Saini",
+        categories,
+      } = req.body;
 
-    // if (categoryObjs.length !== categories.length) {
-    //   return res.status(404).json({
-    //     status: "fail",
-    //     message: "One or more categories not found",
-    //   });
-    // }
+      const image = req.file.path;
 
-    const newPost = new Post({
-      title,
-      content,
-      description,
-      author,
-      categories,
-      image,
-    });
+      const newPost = new Post({
+        title,
+        content,
+        description,
+        author,
+        categories,
+        image,
+      });
 
-    const savedPost = await newPost.save();
+      const savedPost = await newPost.save();
 
-    // Update the posts array of each category
-    await Category.updateMany(
-      { _id: { $in: categories } },
-      { $push: { posts: savedPost._id } }
-    );
+      // Update the posts array of each category
+      await Category.updateMany(
+        { _id: { $in: categories } },
+        { $push: { posts: savedPost._id } }
+      );
 
-    res.status(200).json({
-      status: "success",
-      results: savedPost,
+      res.status(200).json({
+        status: "success",
+        results: savedPost,
+      });
     });
   } catch (error) {
     res.status(500).json({

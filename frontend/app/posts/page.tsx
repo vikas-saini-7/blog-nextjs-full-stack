@@ -73,7 +73,7 @@ const page = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div>
+            <div className="flex">
               <Button
                 onClick={() => {
                   setLayoutDefault(false);
@@ -92,7 +92,7 @@ const page = () => {
                 }}
                 className={`rounded-l-none h-8 ${
                   layoutDefault && "bg-gray-100"
-                } hidden md:inline`}
+                } hidden md:flex`}
                 variant={"outline"}
                 size={"sm"}
               >
